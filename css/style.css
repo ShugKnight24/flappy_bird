@@ -1,0 +1,14 @@
+* {
+	box-sizing: border-box;
+}
+
+body {
+	background-color: #57B2EA;
+}
+
+canvas {
+	display: block;
+	margin: 12.5% auto;
+	background-color: #FFFFFF;
+	border: 3px dashed #EC8B3C;
+}
