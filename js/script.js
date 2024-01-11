@@ -48,7 +48,6 @@ const ctx = canvas.getContext('2d');
 // 		console.error(err);
 // 	});
 
-const gapPixels = 100;
 const backgroundImage = new GameAsset('img/background.png');
 const foregroundImage = new GameAsset('img/foreground.png');
 
@@ -56,14 +55,10 @@ const foregroundImage = new GameAsset('img/foreground.png');
 // const gapHeight = topPipeImage.height + gapPixels;
 
 // Work around
-const topPipeHeight = 242;
-const gapHeight = topPipeHeight + gapPixels;
-
-let birdX = 10;
-let birdY = 150;
-
-const gravity = 1;
-
+const GAP_PIXELS = 100;
+const TOP_PIPE_HEIGHT = 242;
+const GAP_HEIGHT = TOP_PIPE_HEIGHT + GAP_PIXELS;
+const GRAVITY = 1;
 
 let bird = new Bird(10, 150);
 let pipes = [new Pipe(canvas.width, 0)];
@@ -74,58 +69,65 @@ const earnedPoint = new AudioAsset('audio/score.mp3');
 
 // Draw to canvas
 function draw(){
-
 	ctx.drawImage(backgroundImage, 0, 0);
 
-	ctx.drawImage(foregroundImage, 0, canvas.height - foregroundImage.height);
-
-	for (let i = 0; i < pipe.length; i++) {
-
-		ctx.drawImage(topPipeImage, pipe[i].x, pipe[i].y);
-
-		ctx.drawImage(bottomPipeImage, pipe[i].x, pipe[i].y + gapHeight);
-
-		pipe[i].x--;
-
-		if (pipe[i].x === 100){
-			pipe.push({
-				x: canvas.width,
-				y: Math.floor(Math.random() * topPipeImage.height) - topPipeImage.height
-			});
-		}
-
-		// Collision Detection
-		if (birdX + birdImage.width >= pipe[i].x && birdX <= pipe[i].x + topPipeImage.width && (birdY <= pipe[i].y + topPipeImage.height || birdY + birdImage.height >= pipe[i].y + gapHeight) || birdY + birdImage.height >= canvas.height - foregroundImage.height){
-			location.reload()
-		}
-
-		if (pipe[i].x === 5){
-			score++;
-			earnedPoint.play();
-		}
-
+	for (let i = 0; i < pipes.length; i++) {
+		ctx.drawImage(pipes[i].topImage, pipes[i].x, pipes[i].y);
+		ctx.drawImage(pipes[i].bottomImage, pipes[i].x, pipes[i].y + GAP_HEIGHT);
 	}
 
-	ctx.drawImage(birdImage, birdX, birdY);
+	ctx.drawImage(foregroundImage, 0, canvas.height - foregroundImage.height);
+	ctx.drawImage(bird.image, bird.x, bird.y);
 
-	birdY += gravity;
-
-	ctx.fillStyle = '#000000';
-
+	ctx.fillStyle = '#000';
 	ctx.font = '20px Verdana';
-
 	ctx.fillText('Score: ' + score, 10, canvas.height - 20);
-
-	requestAnimationFrame(draw);
-
 }
-
-draw();
 
 // Bird movement
 function moveUp(){
-	birdY -= 20;
+	bird.y -= 20;
 	fly.play();
+}
+
+function updateGame() {
+	// Update bird position
+	bird.y += GRAVITY;
+
+	let i = 0;
+	while (i < pipes.length) {
+		pipes[i].x--;
+
+		if (pipes[i].x == 125){
+			pipes.push(new Pipe(canvas.width, Math.floor(Math.random() * TOP_PIPE_HEIGHT) - TOP_PIPE_HEIGHT));
+		}
+
+		// Remove off-screen pipes
+		if (pipes[i].x < -pipes[i].topImage.width) {
+			pipes.splice(i, 1);
+		} else {
+			// Collision Detection
+			if (bird.x + bird.image.width >= pipes[i].x && bird.x <= pipes[i].x + pipes[i].topImage.width && (
+				bird.y <= pipes[i].y + pipes[i].topImage.height || bird.y + bird.image.height >= pipes[i].y + GAP_HEIGHT
+				) || bird.y + bird.image.height >= canvas.height - foregroundImage.height){
+				location.reload() // Reload the page
+			}
+
+			// Increase score
+			if (pipes[i].x === 5){
+				score++;
+				earnedPoint.play();
+			}
+
+			i++;
+		}
+	}
+}
+
+function gameLoop() {
+	updateGame();
+	draw();
+	requestAnimationFrame(gameLoop);
 }
 
 document.addEventListener('keydown', moveUp);
