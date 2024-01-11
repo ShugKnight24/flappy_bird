@@ -1,5 +1,38 @@
 'use strict';
 
+class GameAsset {
+  constructor(src) {
+    const asset = new Image();
+    asset.src = src;
+    return asset;
+  }
+}
+
+class AudioAsset {
+  constructor(src) {
+    const asset = new Audio();
+    asset.src = src;
+    return asset;
+  }
+}
+
+class Bird {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+    this.image = new GameAsset('img/bird.png');
+  }
+}
+
+class Pipe {
+  constructor(x, y) {
+    this.x = x;
+    this.y = y;
+    this.topImage = new GameAsset('img/top_pipe.png');
+    this.bottomImage = new GameAsset('img/bottom_pipe.png');
+  }
+}
+
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
@@ -15,22 +48,9 @@ const ctx = canvas.getContext('2d');
 // 		console.error(err);
 // 	});
 
-const birdImage = new Image();
-birdImage.src = 'img/bird.png';
-
-const backgroundImage = new Image();
-backgroundImage.src = 'img/background.png';
-
-const foregroundImage = new Image();
-foregroundImage.src = 'img/foreground.png';
-
-const topPipeImage = new Image();
-topPipeImage.src = 'img/top_pipe.png';
-
-const bottomPipeImage = new Image();
-bottomPipeImage.src = 'img/bottom_pipe.png';
-
 const gapPixels = 100;
+const backgroundImage = new GameAsset('img/background.png');
+const foregroundImage = new GameAsset('img/foreground.png');
 
 // Not sure why this isn't working correctly...
 // const gapHeight = topPipeImage.height + gapPixels;
@@ -44,21 +64,13 @@ let birdY = 150;
 
 const gravity = 1;
 
-// Pipe generation
-let pipe = [];
 
-pipe[0] = {
-	x: canvas.width,
-	y: 0
-}
-
+let bird = new Bird(10, 150);
+let pipes = [new Pipe(canvas.width, 0)];
 let score = 0;
 
-const fly = new Audio();
-fly.src = 'audio/fly.mp3';
-
-const earnedPoint = new Audio();
-earnedPoint.src = 'audio/score.mp3';
+const fly = new AudioAsset('audio/fly.mp3');
+const earnedPoint = new AudioAsset('audio/score.mp3');
 
 // Draw to canvas
 function draw(){
