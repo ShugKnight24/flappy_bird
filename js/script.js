@@ -24,6 +24,7 @@ class Bird {
   }
 }
 
+// TODO: Figure out a way to make the next pipe always doable compared to the previous pipe
 class Pipe {
   constructor(x, y) {
     this.x = x;
@@ -131,3 +132,9 @@ function gameLoop() {
 }
 
 document.addEventListener('keydown', moveUp);
+
+// Temporary fix for not being able to start game due to audio playing before user interacts with the page
+document.addEventListener('click', function startGame() {
+  gameLoop();
+  document.removeEventListener('click', startGame);
+});
