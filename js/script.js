@@ -91,6 +91,12 @@ function moveUp(){
 	fly.play();
 }
 
+const checkCollision = (pipe, bird) => {
+	return (bird.x + bird.image.width >= pipe.x && bird.x <= pipe.x + pipe.topImage.width && (
+		bird.y <= pipe.y + pipe.topImage.height || bird.y + bird.image.height >= pipe.y + GAP_HEIGHT
+	) || bird.y + bird.image.height >= canvas.height - foregroundImage.height);
+}
+
 function updateGame() {
 	// Update bird position
 	bird.y += GRAVITY;
@@ -107,13 +113,10 @@ function updateGame() {
 		if (pipes[i].x < -pipes[i].topImage.width) {
 			pipes.splice(i, 1);
 		} else {
-			// Collision Detection
-			if (bird.x + bird.image.width >= pipes[i].x && bird.x <= pipes[i].x + pipes[i].topImage.width && (
-				bird.y <= pipes[i].y + pipes[i].topImage.height || bird.y + bird.image.height >= pipes[i].y + GAP_HEIGHT
-				) || bird.y + bird.image.height >= canvas.height - foregroundImage.height){
+			if (checkCollision(pipes[i], bird)){
 				location.reload() // Reload the page
+				// TOOD: Add game over screen to avoid reloading the page
 			}
-
 			// Increase score
 			if (pipes[i].x === 5){
 				score++;
