@@ -20,11 +20,15 @@ canvas {
 	margin-right: 1rem;
 }
 
+#game-info {
+	width: 25%;
+}
+
+#high-score,
 #instructions {
 	color: #FFFFFF;
 	font-family: 'Roboto', sans-serif;
 	font-size: 1.5rem;
 	text-align: center;
 	font-weight: bold;
-	width: 25%;
 }

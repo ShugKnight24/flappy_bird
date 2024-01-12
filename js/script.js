@@ -3,6 +3,7 @@
 class Game {
 	constructor() {
 		this.state = 'start';
+		this.highScore = 0;
 	}
 
 	endGame() {
@@ -87,6 +88,7 @@ function drawGame(){
 	ctx.fillStyle = '#000';
 	ctx.font = '20px Verdana';
 	ctx.fillText('Score: ' + score, 10, canvas.height - 20);
+	document.getElementById('high-score').textContent = 'High Score: ' + game.highScore;
 }
 
 // TODO: Abstract reusuable code
@@ -156,6 +158,9 @@ function updateGame() {
 			if (pipes[i].x === 5){
 				score++;
 				earnedPoint.play();
+				if (score > game.highScore) {
+					game.highScore = score;
+				}
 			}
 
 			i++;
