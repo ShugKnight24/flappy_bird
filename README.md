@@ -29,8 +29,6 @@ Flappy bird clone using HTML5 Canvas and JavaScript
 ## Future Ideas
 
 ## Bugs
-- [ ] Collision detection is laggy on GitHub pages compared to local dev environment... Figure out why!
-  - Check to see if this is still an issue
 
 ## Improvements
-- Add a high score, add game state and update game accordingly, optimize assets, create collision detection helper and clarify logic, refactor functions to clarify and group functionality, add classes to simplify object creation - 1/11/24
+- Old collision detection issue on GitHub pages no longer a problem, add a high score, add game state and update game accordingly, optimize assets, create collision detection helper and clarify logic, refactor functions to clarify and group functionality, add classes to simplify object creation - 1/11/24
