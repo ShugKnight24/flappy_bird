@@ -1,5 +1,23 @@
 'use strict';
 
+class Game {
+	constructor() {
+		this.state = 'start';
+	}
+
+	endGame() {
+		this.state = 'end';
+	}
+
+	pauseGame() {
+		this.state = 'paused';
+	}
+
+	startGame() {
+		this.state = 'playing';
+	}
+}
+
 class GameAsset {
   constructor(src) {
     const asset = new Image();
@@ -34,6 +52,8 @@ class Pipe {
   }
 }
 
+const game = new Game();
+
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
@@ -52,8 +72,8 @@ let score = 0;
 const fly = new AudioAsset('audio/fly.mp3');
 const earnedPoint = new AudioAsset('audio/score.mp3');
 
-// Draw to canvas
-function draw(){
+// Draw game
+function drawGame(){
 	ctx.drawImage(backgroundImage, 0, 0);
 
 	for (let i = 0; i < pipes.length; i++) {
@@ -67,6 +87,34 @@ function draw(){
 	ctx.fillStyle = '#000';
 	ctx.font = '20px Verdana';
 	ctx.fillText('Score: ' + score, 10, canvas.height - 20);
+}
+
+// TODO: Abstract reusuable code
+// TODO: Text rendering makes me want to create screens
+// figure out a better way to update text on the canvas
+// Draw to canvas
+function draw(){
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+	if (game.state === 'start') {
+		ctx.fillStyle = '#000';
+		ctx.font = '20px Verdana';
+		ctx.fillText('Press "Enter" key', 50, canvas.height / 2);
+		ctx.fillText('to start', 50, (canvas.height / 2) + 30);
+	} else if (game.state === 'paused') {
+		ctx.fillStyle = '#000';
+		ctx.font = '20px Verdana';
+		ctx.fillText('Press the "Enter"', 50, canvas.height / 2);
+		ctx.fillText('or "P" keys to unpause', 50, (canvas.height / 2) + 30);
+	} else if (game.state === 'end') {
+		ctx.fillStyle = '#000';
+		ctx.font = '20px Verdana';
+		ctx.fillText('Game over', 50, canvas.height / 2);
+		ctx.fillText('Press "Enter" key', 50, (canvas.height / 2) + 30);
+		ctx.fillText('to restart', 50, (canvas.height / 2) + 60);
+	} else if (game.state === 'playing') {
+		drawGame();
+	}
 }
 
 // Bird movement
@@ -85,6 +133,7 @@ const checkCollision = (pipe, bird) => {
 }
 
 function updateGame() {
+	if (game.state !== 'playing') return;
 	// Update bird position
 	bird.y += GRAVITY;
 
@@ -101,8 +150,7 @@ function updateGame() {
 			pipes.splice(i, 1);
 		} else {
 			if (checkCollision(pipes[i], bird)){
-				location.reload() // Reload the page
-				// TOOD: Add game over screen to avoid reloading the page
+				game.endGame();
 			}
 			// Increase score
 			if (pipes[i].x === 5){
@@ -121,10 +169,29 @@ function gameLoop() {
 	requestAnimationFrame(gameLoop);
 }
 
-document.addEventListener('keydown', moveUp);
-
-// Temporary fix for not being able to start game due to audio playing before user interacts with the page
-document.addEventListener('click', function startGame() {
-  gameLoop();
-  document.removeEventListener('click', startGame);
+document.addEventListener('keydown', function(event){
+	if (game.state !== 'playing') return;
+	if (event.key === ' ' || event.key === 'ArrowUp'){
+		moveUp();
+	}
 });
+
+// Make this cleaner and abstract out the action keys
+document.addEventListener('keydown', function(event) {
+  if (game.state === 'start' && event.key === 'Enter') {
+    game.startGame();
+  } else if (game.state === 'playing' && (event.key === 'Escape' || event.key === 'p')) {
+    game.pauseGame();
+  } else if (game.state === 'paused' && (event.key === 'Enter' || event.key === 'p')) {
+    game.startGame();
+  } else if (game.state === 'end' && event.key === 'Enter') {
+    game.startGame();
+    // Reset game - abstract this into a function
+    bird.y = 150;
+    pipes.length = 0;
+    pipes.push(new Pipe(canvas.width, 0));
+    score = 0;
+  }
+});
+
+gameLoop();
