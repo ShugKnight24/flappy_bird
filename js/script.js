@@ -37,32 +37,16 @@ class Pipe {
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 
-// const loadAssets = new Promise((resolve, reject) => {
-//
-// });
-//
-// loadAssets
-// 	.then(data => {
-// 		console.log(data);
-// 	})
-// 	.catch(err => {
-// 		console.error(err);
-// 	});
-
 const backgroundImage = new GameAsset('img/background.png');
 const foregroundImage = new GameAsset('img/foreground.png');
 
-// Not sure why this isn't working correctly...
-// const gapHeight = topPipeImage.height + gapPixels;
-
-// Work around
 const GAP_PIXELS = 100;
 const TOP_PIPE_HEIGHT = 242;
 const GAP_HEIGHT = TOP_PIPE_HEIGHT + GAP_PIXELS;
 const GRAVITY = 1;
 
-let bird = new Bird(10, 150);
-let pipes = [new Pipe(canvas.width, 0)];
+const bird = new Bird(10, 150);
+const pipes = [new Pipe(canvas.width, 0)];
 let score = 0;
 
 const fly = new AudioAsset('audio/fly.mp3');
