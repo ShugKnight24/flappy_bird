@@ -76,9 +76,12 @@ function moveUp(){
 }
 
 const checkCollision = (pipe, bird) => {
-	return (bird.x + bird.image.width >= pipe.x && bird.x <= pipe.x + pipe.topImage.width && (
-		bird.y <= pipe.y + pipe.topImage.height || bird.y + bird.image.height >= pipe.y + GAP_HEIGHT
-	) || bird.y + bird.image.height >= canvas.height - foregroundImage.height);
+	const birdHitTopPipe = bird.y <= pipe.y + pipe.topImage.height;
+	const birdHitBottomPipe = bird.y + bird.image.height >= pipe.y + GAP_HEIGHT;
+	const birdWithinPipeHorizontal = bird.x + bird.image.width >= pipe.x && bird.x <= pipe.x + pipe.topImage.width;
+	const birdHitGround = bird.y + bird.image.height >= canvas.height - foregroundImage.height;
+
+	return birdWithinPipeHorizontal && (birdHitTopPipe || birdHitBottomPipe || birdHitGround);
 }
 
 function updateGame() {
