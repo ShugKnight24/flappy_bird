@@ -1858,11 +1858,12 @@ const Settings = {
       CONFIG.FLAP_VELOCITY = -(this.current.flapPower / 10);
     }
 
-    // Apply audio settings
-    fly.volume = this.current.soundEnabled ? this.current.volume / 100 : 0;
-    earnedPoint.volume = this.current.soundEnabled
-      ? this.current.volume / 100
-      : 0;
+    // Apply audio settings to all sound assets
+    const volume = this.current.soundEnabled ? this.current.volume / 100 : 0;
+    fly.volume = volume;
+    earnedPoint.volume = volume;
+    coinSound.volume = volume;
+    powerUpSound.volume = volume;
   },
 
   updateUI() {
@@ -1920,7 +1921,7 @@ const Settings = {
         this.current.difficulty = btn.dataset.difficulty;
         const preset = this.difficultyPresets[this.current.difficulty];
         this.current.gravity = preset.gravity;
-        this.current.flapPower = (preset.flapPower * 10) / 10; // Normalize
+        this.current.flapPower = preset.flapPower;
         this.save();
         this.applySettings();
         this.updateUI();
@@ -2052,7 +2053,7 @@ Settings.init();
 document.querySelectorAll(".mode-btn").forEach((btn) => {
   btn.addEventListener("click", () => {
     const mode = btn.dataset.mode;
-    if (mode && GAME_MODES[mode] && !game.playing) {
+    if (mode && GAME_MODES[mode] && game.state !== "playing") {
       // Update active state
       document
         .querySelectorAll(".mode-btn")
@@ -2087,7 +2088,7 @@ document.querySelectorAll(".diff-pill").forEach((btn) => {
       Settings.current.difficulty = difficulty;
       const preset = Settings.difficultyPresets[difficulty];
       Settings.current.gravity = preset.gravity;
-      Settings.current.flapPower = (preset.flapPower * 10) / 10;
+      Settings.current.flapPower = preset.flapPower;
       Settings.save();
       Settings.applySettings();
       Settings.updateUI();

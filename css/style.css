@@ -552,7 +552,7 @@ body {
 }
 
 .canvas-container:hover {
-  transform: translateY(-4px);
+  transform: scale(1.08) translateY(-4px);
   box-shadow: var(--shadow-lg), 0 0 0 3px var(--accent-primary),
     0 0 80px rgba(251, 191, 36, 0.25);
 }
