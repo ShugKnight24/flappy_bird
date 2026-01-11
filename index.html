@@ -205,114 +205,13 @@
             | Press <kbd>Enter</kbd> to begin your journey
           </p>
         </footer>
-
-        <!-- Developer Attribution -->
-        <div class="lux-attribution">
-          <p>
-            <span class="footer-icon">
-              <!-- Mini Flappy Bird SVG -->
-              <svg viewBox="0 0 40 35" class="attr-bird-svg">
-                <ellipse cx="20" cy="18" rx="12" ry="10" fill="#F7DC6F" />
-                <ellipse cx="20" cy="18" rx="10" ry="8" fill="#F9E79F" />
-                <ellipse
-                  class="attr-wing"
-                  cx="17"
-                  cy="21"
-                  rx="7"
-                  ry="4"
-                  fill="#E5C100"
-                />
-                <circle cx="26" cy="15" r="5" fill="white" />
-                <circle cx="27" cy="15" r="3" fill="#333" />
-                <circle cx="28" cy="13" r="1" fill="white" />
-                <path d="M31 18 L38 19 L31 22 Z" fill="#E67E22" />
-                <ellipse cx="8" cy="17" rx="4" ry="2" fill="#E5C100" />
-              </svg>
-            </span>
-            Crafted with wings
-            <span class="footer-icon">
-              <!-- Mini Pipe SVG -->
-              <svg viewBox="0 0 30 45" class="attr-pipe-svg">
-                <defs>
-                  <linearGradient
-                    id="attrPipeGrad"
-                    x1="0%"
-                    y1="0%"
-                    x2="100%"
-                    y2="0%"
-                  >
-                    <stop offset="0%" style="stop-color: #5dbe5d" />
-                    <stop offset="50%" style="stop-color: #73d073" />
-                    <stop offset="100%" style="stop-color: #4caf4c" />
-                  </linearGradient>
-                </defs>
-                <rect
-                  x="5"
-                  y="10"
-                  width="20"
-                  height="35"
-                  fill="url(#attrPipeGrad)"
-                  rx="2"
-                />
-                <rect
-                  x="2"
-                  y="5"
-                  width="26"
-                  height="10"
-                  fill="url(#attrPipeGrad)"
-                  rx="2"
-                />
-                <rect
-                  x="3"
-                  y="5"
-                  width="3"
-                  height="10"
-                  fill="#8FE88F"
-                  opacity="0.5"
-                  rx="1"
-                />
-              </svg>
-            </span>
-            Designed by
-            <a
-              href="https://shumunovsolutions.com"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Shumunov Solutions
-            </a>
-            <span class="footer-icon">
-              <!-- Mini Birdhouse SVG -->
-              <svg viewBox="0 0 40 45" class="attr-house-svg">
-                <rect
-                  x="8"
-                  y="20"
-                  width="24"
-                  height="22"
-                  fill="#DEB887"
-                  rx="2"
-                />
-                <path d="M5 20 L20 5 L35 20 Z" fill="#CD853F" />
-                <circle cx="20" cy="28" r="5" fill="#2C1810" />
-                <rect
-                  x="17"
-                  y="33"
-                  width="6"
-                  height="3"
-                  fill="#8B4513"
-                  rx="1"
-                />
-              </svg>
-            </span>
-          </p>
-        </div>
       </div>
 
       <!-- Animated SVG Background Scene -->
       <div class="svg-scene">
         <svg
-          viewBox="0 0 800 200"
-          preserveAspectRatio="xMidYMax slice"
+          viewBox="0 0 800 250"
+          preserveAspectRatio="xMidYMid meet"
           class="scene-svg"
         >
           <!-- Sky Gradient -->
@@ -674,7 +573,7 @@
             />
           </g>
 
-          <!-- Third Pipe - between middle and birdhouse -->
+          <!-- Third Pipe -->
           <g class="pipe pipe-third">
             <rect
               x="460"
@@ -712,7 +611,7 @@
             />
           </g>
 
-          <!-- Bird House - moved more to the right -->
+          <!-- Bird House -->
           <g class="bird-house">
             <!-- House base -->
             <rect
@@ -894,7 +793,7 @@
             <!-- Sign text -->
             <text
               x="755"
-              y="143"
+              y="140"
               font-size="8"
               fill="#5D4037"
               text-anchor="middle"
@@ -903,30 +802,12 @@
             >
               HOME
             </text>
-            <!-- Sweet text with candies -->
+            <!-- Sweet text -->
             <g class="sweet-row">
-              <!-- Left candy -->
-              <g class="candy candy-left">
-                <ellipse cx="728" cy="148" rx="4" ry="3" fill="#FF69B4" />
-                <path
-                  d="M724 148 L726 148"
-                  stroke="white"
-                  stroke-width="0.8"
-                  opacity="0.6"
-                />
-                <ellipse
-                  cx="728"
-                  cy="148"
-                  rx="2.5"
-                  ry="1.8"
-                  fill="#FF1493"
-                  opacity="0.5"
-                />
-              </g>
               <!-- Sweet text -->
               <text
                 x="755"
-                y="152"
+                y="150"
                 font-size="9"
                 fill="#DC143C"
                 text-anchor="middle"
@@ -936,28 +817,10 @@
               >
                 sweet
               </text>
-              <!-- Right candy -->
-              <g class="candy candy-right">
-                <ellipse cx="782" cy="148" rx="4" ry="3" fill="#32CD32" />
-                <path
-                  d="M778 148 L780 148"
-                  stroke="white"
-                  stroke-width="0.8"
-                  opacity="0.6"
-                />
-                <ellipse
-                  cx="782"
-                  cy="148"
-                  rx="2.5"
-                  ry="1.8"
-                  fill="#228B22"
-                  opacity="0.5"
-                />
-              </g>
             </g>
             <text
               x="755"
-              y="166"
+              y="160"
               font-size="8"
               fill="#5D4037"
               text-anchor="middle"
@@ -972,10 +835,6 @@
             <circle cx="784" cy="134" r="1.5" fill="#4A4A4A" />
             <circle cx="726" cy="164" r="1.5" fill="#4A4A4A" />
             <circle cx="784" cy="164" r="1.5" fill="#4A4A4A" />
-
-            <!-- Sign bracket connecting to post -->
-            <rect x="753" y="135" width="10" height="3" fill="#654321" />
-            <rect x="753" y="155" width="10" height="3" fill="#654321" />
           </g>
 
           <!-- Ground -->
@@ -1073,6 +932,93 @@
             opacity="0.4"
           />
         </svg>
+      </div>
+
+      <!-- Developer Attribution -->
+      <div class="lux-attribution">
+        <p>
+          <span class="footer-icon">
+            <!-- Mini Flappy Bird SVG -->
+            <svg viewBox="0 0 40 35" class="attr-bird-svg">
+              <ellipse cx="20" cy="18" rx="12" ry="10" fill="#F7DC6F" />
+              <ellipse cx="20" cy="18" rx="10" ry="8" fill="#F9E79F" />
+              <ellipse
+                class="attr-wing"
+                cx="17"
+                cy="21"
+                rx="7"
+                ry="4"
+                fill="#E5C100"
+              />
+              <circle cx="26" cy="15" r="5" fill="white" />
+              <circle cx="27" cy="15" r="3" fill="#333" />
+              <circle cx="28" cy="13" r="1" fill="white" />
+              <path d="M31 18 L38 19 L31 22 Z" fill="#E67E22" />
+              <ellipse cx="8" cy="17" rx="4" ry="2" fill="#E5C100" />
+            </svg>
+          </span>
+          Flutter those wings
+          <span class="footer-icon">
+            <!-- Mini Pipe SVG -->
+            <svg viewBox="0 0 30 45" class="attr-pipe-svg">
+              <defs>
+                <linearGradient
+                  id="attrPipeGrad"
+                  x1="0%"
+                  y1="0%"
+                  x2="100%"
+                  y2="0%"
+                >
+                  <stop offset="0%" style="stop-color: #5dbe5d" />
+                  <stop offset="50%" style="stop-color: #73d073" />
+                  <stop offset="100%" style="stop-color: #4caf4c" />
+                </linearGradient>
+              </defs>
+              <rect
+                x="5"
+                y="10"
+                width="20"
+                height="35"
+                fill="url(#attrPipeGrad)"
+                rx="2"
+              />
+              <rect
+                x="2"
+                y="5"
+                width="26"
+                height="10"
+                fill="url(#attrPipeGrad)"
+                rx="2"
+              />
+              <rect
+                x="3"
+                y="5"
+                width="3"
+                height="10"
+                fill="#8FE88F"
+                opacity="0.5"
+                rx="1"
+              />
+            </svg>
+          </span>
+          Designed by
+          <a
+            href="https://shumunovsolutions.com"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Shumunov Solutions
+          </a>
+          <span class="footer-icon">
+            <!-- Mini Birdhouse SVG -->
+            <svg viewBox="0 0 40 45" class="attr-house-svg">
+              <rect x="8" y="20" width="24" height="22" fill="#DEB887" rx="2" />
+              <path d="M5 20 L20 5 L35 20 Z" fill="#CD853F" />
+              <circle cx="20" cy="28" r="5" fill="#2C1810" />
+              <rect x="17" y="33" width="6" height="3" fill="#8B4513" rx="1" />
+            </svg>
+          </span>
+        </p>
       </div>
 
       <!-- Settings Modal -->
