@@ -879,7 +879,6 @@ class Bird {
     this.rotation = 0; // Current rotation angle
     this.flapCooldown = 0; // Prevents spam flapping
     this.image = new GameAsset("img/bird.png");
-    this.horizontalVelocity = 0; // For wind effects
   }
 
   flap() {
@@ -902,13 +901,6 @@ class Bird {
 
     // Update position (affected by slow motion)
     this.y += this.velocity * slowFactor;
-
-    // Apply wind effect (horizontal drift)
-    if (windForce !== 0) {
-      this.horizontalVelocity += windForce * 0.5;
-      this.horizontalVelocity *= 0.95; // Damping
-      // Don't actually move bird horizontally, but could add visual tilt
-    }
 
     // Update rotation based on velocity
     if (this.velocity < 0) {
@@ -937,7 +929,6 @@ class Bird {
     this.velocity = 0;
     this.rotation = 0;
     this.flapCooldown = 0;
-    this.horizontalVelocity = 0;
   }
 
   draw(ctx, scale = 1) {
@@ -1527,35 +1518,31 @@ function updateGame() {
       pipes[i].update();
     }
 
-    // Spawn new pipe
+    // Spawn new pipe (avoid duplicate spawns)
     if (
-      !pipes[i].passed &&
+      i === pipes.length - 1 &&
       pipes[i].x < canvas.width - CONFIG.PIPE_SPAWN_DISTANCE
     ) {
-      // Check if we need a new pipe
-      const lastPipe = pipes[pipes.length - 1];
-      if (lastPipe.x < canvas.width - CONFIG.PIPE_SPAWN_DISTANCE) {
-        const newPipe = pipeGenerator.generate(
-          canvas.width,
-          currentGap,
-          game.modeFeatures.movingPipes
-        );
-        pipes.push(newPipe);
+      const newPipe = pipeGenerator.generate(
+        canvas.width,
+        currentGap,
+        game.modeFeatures.movingPipes
+      );
+      pipes.push(newPipe);
 
-        // Spawn collectibles in the gap
-        const gapBounds = newPipe.getGapBounds();
-        game.spawnPowerUp(
-          canvas.width + 30,
-          gapBounds.top + 10,
-          gapBounds.bottom - 10
-        );
-        game.spawnCoins(
-          canvas.width + 50,
-          gapBounds.top + 10,
-          gapBounds.bottom - 10,
-          3
-        );
-      }
+      // Spawn collectibles in the gap
+      const gapBounds = newPipe.getGapBounds();
+      game.spawnPowerUp(
+        canvas.width + 30,
+        gapBounds.top + 10,
+        gapBounds.bottom - 10
+      );
+      game.spawnCoins(
+        canvas.width + 50,
+        gapBounds.top + 10,
+        gapBounds.bottom - 10,
+        3
+      );
     }
 
     // Remove off-screen pipes
