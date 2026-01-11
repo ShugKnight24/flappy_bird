@@ -1,28 +1,1354 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>Flappy Bird</title>
-	<link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-	<div id="game-container">
-		<canvas id="canvas" width="288" height="512"></canvas>
-		<div id="game-info">
-			<div id="score-container">
-				<p id="high-score">High Score: 0</p>
-			</div>
-			<div id="instructions">
-				<p>Start game with "Enter"</p>
-				<p>Move the bird with "Space" or the "Up Arrow"</p>
-				<p>Pause the game with "Escape" or "P"</p>
-				<p>Unpause with "Enter" or "P"</p>
-				<p>Collect a high score and profit??? Maybe someday</p>
-			</div>
-		</div>
-	</div>
-	<script src="js/script.js"></script>
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Flappy Bird</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="app-container">
+      <!-- Main Game Container -->
+      <div class="game-wrapper">
+        <!-- Header -->
+        <header class="game-header">
+          <div class="logo">
+            <span class="logo-icon">
+              <svg viewBox="0 0 40 35" class="bird-svg">
+                <!-- Body -->
+                <ellipse cx="20" cy="18" rx="14" ry="12" fill="#F7DC6F" />
+                <ellipse cx="20" cy="18" rx="12" ry="10" fill="#F9E79F" />
+                <!-- Wing -->
+                <ellipse
+                  class="logo-wing"
+                  cx="16"
+                  cy="22"
+                  rx="9"
+                  ry="5"
+                  fill="#E5C100"
+                />
+                <ellipse
+                  class="logo-wing"
+                  cx="16"
+                  cy="22"
+                  rx="7"
+                  ry="3"
+                  fill="#F0D000"
+                />
+                <!-- Eye -->
+                <circle cx="28" cy="14" r="6" fill="white" />
+                <circle cx="30" cy="14" r="3.5" fill="#333" />
+                <circle cx="31" cy="12" r="1.2" fill="white" />
+                <!-- Beak -->
+                <path d="M34 18 L44 20 L34 24 Z" fill="#E67E22" />
+                <path d="M34 18 L42 19 L34 21 Z" fill="#F39C12" />
+                <!-- Tail -->
+                <ellipse cx="5" cy="16" rx="5" ry="2.5" fill="#E5C100" />
+                <ellipse cx="5" cy="20" rx="4" ry="2" fill="#D4AC0D" />
+                <!-- Cheek -->
+                <ellipse
+                  cx="24"
+                  cy="22"
+                  rx="3"
+                  ry="2"
+                  fill="#F1948A"
+                  opacity="0.6"
+                />
+              </svg>
+            </span>
+            <h1>Flappy Bird</h1>
+          </div>
+          <div class="header-stats">
+            <!-- Settings Button -->
+            <button
+              class="settings-btn"
+              id="settings-btn"
+              aria-label="Settings"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <circle cx="12" cy="12" r="3" />
+                <path
+                  d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"
+                />
+              </svg>
+            </button>
+
+            <div class="stat-badge high-score-badge">
+              <svg
+                class="stat-icon"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
+                />
+              </svg>
+              <span id="high-score">0</span>
+            </div>
+          </div>
+        </header>
+
+        <!-- Game Area -->
+        <main class="game-main">
+          <div class="canvas-container">
+            <canvas id="canvas" width="288" height="512"></canvas>
+            <div class="canvas-glow"></div>
+          </div>
+
+          <!-- Side Panel -->
+          <aside class="game-panel">
+            <div class="panel-card controls-card">
+              <h2>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <path d="M12 16v-4M12 8h.01" />
+                </svg>
+                Controls
+              </h2>
+              <div class="control-list">
+                <div class="control-item">
+                  <div class="key-combo">
+                    <kbd>Space</kbd>
+                    <span class="key-or">or</span>
+                    <kbd>↑</kbd>
+                  </div>
+                  <span class="control-action">Flap</span>
+                </div>
+                <div class="control-item">
+                  <div class="key-combo">
+                    <kbd>Enter</kbd>
+                  </div>
+                  <span class="control-action">Start / Restart</span>
+                </div>
+                <div class="control-item">
+                  <div class="key-combo">
+                    <kbd>Esc</kbd>
+                    <span class="key-or">or</span>
+                    <kbd>P</kbd>
+                  </div>
+                  <span class="control-action">Pause</span>
+                </div>
+                <div class="control-item mobile-hint">
+                  <div class="key-combo">
+                    <kbd
+                      ><svg
+                        class="tap-icon"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                      >
+                        <path
+                          d="M18 11V6a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v5M18 11a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2m10 0H8M15 4v3M9 4v3"
+                        />
+                      </svg>
+                      Tap</kbd
+                    >
+                  </div>
+                  <span class="control-action">Flap (Mobile)</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel-card tips-card">
+              <h2>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"
+                  />
+                </svg>
+                Pro Tips
+              </h2>
+              <ul class="tips-list">
+                <li>Tap rhythmically, don't spam!</li>
+                <li>Watch the gaps, not the bird</li>
+                <li>Difficulty increases every 5 points</li>
+                <li>Stay calm - panic causes crashes!</li>
+              </ul>
+            </div>
+          </aside>
+        </main>
+
+        <!-- Footer -->
+        <footer class="game-footer">
+          <p>
+            Made with
+            <svg class="heart-icon" viewBox="0 0 24 24" fill="#ef4444">
+              <path
+                d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"
+              />
+            </svg>
+            | Press <kbd>Enter</kbd> to begin your journey
+          </p>
+        </footer>
+
+        <!-- Developer Attribution -->
+        <div class="lux-attribution">
+          <p>
+            <span class="footer-icon">
+              <!-- Mini Flappy Bird SVG -->
+              <svg viewBox="0 0 40 35" class="attr-bird-svg">
+                <ellipse cx="20" cy="18" rx="12" ry="10" fill="#F7DC6F" />
+                <ellipse cx="20" cy="18" rx="10" ry="8" fill="#F9E79F" />
+                <ellipse
+                  class="attr-wing"
+                  cx="17"
+                  cy="21"
+                  rx="7"
+                  ry="4"
+                  fill="#E5C100"
+                />
+                <circle cx="26" cy="15" r="5" fill="white" />
+                <circle cx="27" cy="15" r="3" fill="#333" />
+                <circle cx="28" cy="13" r="1" fill="white" />
+                <path d="M31 18 L38 19 L31 22 Z" fill="#E67E22" />
+                <ellipse cx="8" cy="17" rx="4" ry="2" fill="#E5C100" />
+              </svg>
+            </span>
+            Crafted with wings
+            <span class="footer-icon">
+              <!-- Mini Pipe SVG -->
+              <svg viewBox="0 0 30 45" class="attr-pipe-svg">
+                <defs>
+                  <linearGradient
+                    id="attrPipeGrad"
+                    x1="0%"
+                    y1="0%"
+                    x2="100%"
+                    y2="0%"
+                  >
+                    <stop offset="0%" style="stop-color: #5dbe5d" />
+                    <stop offset="50%" style="stop-color: #73d073" />
+                    <stop offset="100%" style="stop-color: #4caf4c" />
+                  </linearGradient>
+                </defs>
+                <rect
+                  x="5"
+                  y="10"
+                  width="20"
+                  height="35"
+                  fill="url(#attrPipeGrad)"
+                  rx="2"
+                />
+                <rect
+                  x="2"
+                  y="5"
+                  width="26"
+                  height="10"
+                  fill="url(#attrPipeGrad)"
+                  rx="2"
+                />
+                <rect
+                  x="3"
+                  y="5"
+                  width="3"
+                  height="10"
+                  fill="#8FE88F"
+                  opacity="0.5"
+                  rx="1"
+                />
+              </svg>
+            </span>
+            Designed by
+            <a
+              href="https://shumunovsolutions.com"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Shumunov Solutions
+            </a>
+            <span class="footer-icon">
+              <!-- Mini Birdhouse SVG -->
+              <svg viewBox="0 0 40 45" class="attr-house-svg">
+                <rect
+                  x="8"
+                  y="20"
+                  width="24"
+                  height="22"
+                  fill="#DEB887"
+                  rx="2"
+                />
+                <path d="M5 20 L20 5 L35 20 Z" fill="#CD853F" />
+                <circle cx="20" cy="28" r="5" fill="#2C1810" />
+                <rect
+                  x="17"
+                  y="33"
+                  width="6"
+                  height="3"
+                  fill="#8B4513"
+                  rx="1"
+                />
+              </svg>
+            </span>
+          </p>
+        </div>
+      </div>
+
+      <!-- Animated SVG Background Scene -->
+      <div class="svg-scene">
+        <svg
+          viewBox="0 0 800 200"
+          preserveAspectRatio="xMidYMax slice"
+          class="scene-svg"
+        >
+          <!-- Sky Gradient -->
+          <defs>
+            <linearGradient id="skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" style="stop-color: #87ceeb; stop-opacity: 1" />
+              <stop
+                offset="100%"
+                style="stop-color: #e0f4ff; stop-opacity: 1"
+              />
+            </linearGradient>
+            <linearGradient id="pipeGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" style="stop-color: #5dbe5d" />
+              <stop offset="50%" style="stop-color: #73d073" />
+              <stop offset="100%" style="stop-color: #4caf4c" />
+            </linearGradient>
+            <linearGradient
+              id="groundGradient"
+              x1="0%"
+              y1="0%"
+              x2="0%"
+              y2="100%"
+            >
+              <stop offset="0%" style="stop-color: #8b5a2b" />
+              <stop offset="100%" style="stop-color: #654321" />
+            </linearGradient>
+            <linearGradient
+              id="grassGradient"
+              x1="0%"
+              y1="0%"
+              x2="0%"
+              y2="100%"
+            >
+              <stop offset="0%" style="stop-color: #7ccd7c" />
+              <stop offset="100%" style="stop-color: #5dbe5d" />
+            </linearGradient>
+            <linearGradient id="roofGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" style="stop-color: #d2691e" />
+              <stop offset="100%" style="stop-color: #a0522d" />
+            </linearGradient>
+            <!-- Cloud filter for soft edges -->
+            <filter id="cloudBlur" x="-20%" y="-20%" width="140%" height="140%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="2" />
+            </filter>
+            <!-- Sun gradients -->
+            <radialGradient id="sunGlow" cx="50%" cy="50%" r="50%">
+              <stop
+                offset="0%"
+                style="stop-color: #ffd700; stop-opacity: 0.8"
+              />
+              <stop
+                offset="50%"
+                style="stop-color: #ffa500; stop-opacity: 0.4"
+              />
+              <stop
+                offset="100%"
+                style="stop-color: #ffd700; stop-opacity: 0"
+              />
+            </radialGradient>
+            <radialGradient id="sunCore" cx="30%" cy="30%" r="70%">
+              <stop offset="0%" style="stop-color: #fffde7" />
+              <stop offset="50%" style="stop-color: #ffeb3b" />
+              <stop offset="100%" style="stop-color: #ffc107" />
+            </radialGradient>
+          </defs>
+
+          <!-- Sky Background -->
+          <rect width="100%" height="100%" fill="url(#skyGradient)" />
+
+          <!-- Animated Clouds -->
+          <g class="clouds">
+            <ellipse
+              class="cloud cloud-1"
+              cx="100"
+              cy="40"
+              rx="40"
+              ry="20"
+              fill="white"
+              opacity="0.9"
+            />
+            <ellipse
+              class="cloud cloud-1"
+              cx="130"
+              cy="35"
+              rx="30"
+              ry="18"
+              fill="white"
+              opacity="0.9"
+            />
+            <ellipse
+              class="cloud cloud-1"
+              cx="70"
+              cy="35"
+              rx="25"
+              ry="15"
+              fill="white"
+              opacity="0.9"
+            />
+
+            <ellipse
+              class="cloud cloud-2"
+              cx="400"
+              cy="50"
+              rx="50"
+              ry="22"
+              fill="white"
+              opacity="0.85"
+            />
+            <ellipse
+              class="cloud cloud-2"
+              cx="440"
+              cy="45"
+              rx="35"
+              ry="18"
+              fill="white"
+              opacity="0.85"
+            />
+            <ellipse
+              class="cloud cloud-2"
+              cx="360"
+              cy="48"
+              rx="30"
+              ry="16"
+              fill="white"
+              opacity="0.85"
+            />
+
+            <ellipse
+              class="cloud cloud-3"
+              cx="650"
+              cy="35"
+              rx="45"
+              ry="20"
+              fill="white"
+              opacity="0.9"
+            />
+            <ellipse
+              class="cloud cloud-3"
+              cx="690"
+              cy="30"
+              rx="30"
+              ry="16"
+              fill="white"
+              opacity="0.9"
+            />
+          </g>
+
+          <!-- Shining Sun in top right -->
+          <g class="sun">
+            <!-- Sun glow -->
+            <circle
+              cx="760"
+              cy="35"
+              r="40"
+              fill="url(#sunGlow)"
+              opacity="0.5"
+            />
+            <!-- Sun rays -->
+            <g class="sun-rays">
+              <line
+                x1="760"
+                y1="-10"
+                x2="760"
+                y2="5"
+                stroke="#FFD700"
+                stroke-width="3"
+                stroke-linecap="round"
+              />
+              <line
+                x1="760"
+                y1="65"
+                x2="760"
+                y2="80"
+                stroke="#FFD700"
+                stroke-width="3"
+                stroke-linecap="round"
+              />
+              <line
+                x1="715"
+                y1="35"
+                x2="730"
+                y2="35"
+                stroke="#FFD700"
+                stroke-width="3"
+                stroke-linecap="round"
+              />
+              <line
+                x1="790"
+                y1="35"
+                x2="805"
+                y2="35"
+                stroke="#FFD700"
+                stroke-width="3"
+                stroke-linecap="round"
+              />
+              <line
+                x1="728"
+                y1="3"
+                x2="738"
+                y2="13"
+                stroke="#FFD700"
+                stroke-width="2.5"
+                stroke-linecap="round"
+              />
+              <line
+                x1="782"
+                y1="57"
+                x2="792"
+                y2="67"
+                stroke="#FFD700"
+                stroke-width="2.5"
+                stroke-linecap="round"
+              />
+              <line
+                x1="728"
+                y1="67"
+                x2="738"
+                y2="57"
+                stroke="#FFD700"
+                stroke-width="2.5"
+                stroke-linecap="round"
+              />
+              <line
+                x1="782"
+                y1="13"
+                x2="792"
+                y2="3"
+                stroke="#FFD700"
+                stroke-width="2.5"
+                stroke-linecap="round"
+              />
+            </g>
+            <!-- Sun core -->
+            <circle cx="760" cy="35" r="22" fill="url(#sunCore)" />
+            <circle cx="760" cy="35" r="18" fill="#FFEB3B" />
+            <!-- Sun face -->
+            <circle cx="752" cy="32" r="2" fill="#FF9800" opacity="0.7" />
+            <circle cx="768" cy="32" r="2" fill="#FF9800" opacity="0.7" />
+            <path
+              d="M754 40 Q760 45 766 40"
+              stroke="#FF9800"
+              stroke-width="2"
+              fill="none"
+              stroke-linecap="round"
+              opacity="0.7"
+            />
+            <!-- Sparkles -->
+            <circle
+              class="sun-sparkle"
+              cx="740"
+              cy="20"
+              r="2"
+              fill="white"
+              opacity="0.8"
+            />
+            <circle
+              class="sun-sparkle-2"
+              cx="780"
+              cy="50"
+              r="1.5"
+              fill="white"
+              opacity="0.6"
+            />
+            <circle
+              class="sun-sparkle-3"
+              cx="745"
+              cy="55"
+              r="1"
+              fill="white"
+              opacity="0.7"
+            />
+          </g>
+
+          <!-- Distant Hills -->
+          <path
+            d="M0 160 Q100 120 200 150 Q300 110 400 140 Q500 100 600 145 Q700 115 800 150 L800 200 L0 200 Z"
+            fill="#90EE90"
+            opacity="0.5"
+          />
+          <path
+            d="M0 170 Q150 140 300 165 Q450 130 600 160 Q750 140 800 165 L800 200 L0 200 Z"
+            fill="#7CCD7C"
+            opacity="0.6"
+          />
+
+          <!-- Left Pipe -->
+          <g class="pipe pipe-left">
+            <rect
+              x="80"
+              y="80"
+              width="50"
+              height="120"
+              fill="url(#pipeGradient)"
+              rx="3"
+            />
+            <rect
+              x="75"
+              y="75"
+              width="60"
+              height="20"
+              fill="url(#pipeGradient)"
+              rx="3"
+            />
+            <rect
+              x="77"
+              y="75"
+              width="4"
+              height="20"
+              fill="#8FE88F"
+              opacity="0.5"
+              rx="2"
+            />
+            <rect
+              x="125"
+              y="75"
+              width="4"
+              height="20"
+              fill="#3D8B3D"
+              opacity="0.3"
+              rx="2"
+            />
+          </g>
+
+          <!-- Middle Pipe -->
+          <g class="pipe pipe-right">
+            <rect
+              x="280"
+              y="100"
+              width="50"
+              height="100"
+              fill="url(#pipeGradient)"
+              rx="3"
+            />
+            <rect
+              x="275"
+              y="95"
+              width="60"
+              height="20"
+              fill="url(#pipeGradient)"
+              rx="3"
+            />
+            <rect
+              x="277"
+              y="95"
+              width="4"
+              height="20"
+              fill="#8FE88F"
+              opacity="0.5"
+              rx="2"
+            />
+            <rect
+              x="325"
+              y="95"
+              width="4"
+              height="20"
+              fill="#3D8B3D"
+              opacity="0.3"
+              rx="2"
+            />
+          </g>
+
+          <!-- Third Pipe - between middle and birdhouse -->
+          <g class="pipe pipe-third">
+            <rect
+              x="460"
+              y="85"
+              width="50"
+              height="115"
+              fill="url(#pipeGradient)"
+              rx="3"
+            />
+            <rect
+              x="455"
+              y="80"
+              width="60"
+              height="20"
+              fill="url(#pipeGradient)"
+              rx="3"
+            />
+            <rect
+              x="457"
+              y="80"
+              width="4"
+              height="20"
+              fill="#8FE88F"
+              opacity="0.5"
+              rx="2"
+            />
+            <rect
+              x="505"
+              y="80"
+              width="4"
+              height="20"
+              fill="#3D8B3D"
+              opacity="0.3"
+              rx="2"
+            />
+          </g>
+
+          <!-- Bird House - moved more to the right -->
+          <g class="bird-house">
+            <!-- House base -->
+            <rect
+              x="620"
+              y="130"
+              width="70"
+              height="60"
+              fill="#DEB887"
+              rx="3"
+            />
+            <rect x="625" y="135" width="60" height="50" fill="#D2B48C" />
+
+            <!-- Wood grain -->
+            <line
+              x1="630"
+              y1="140"
+              x2="630"
+              y2="180"
+              stroke="#C4A574"
+              stroke-width="1"
+              opacity="0.5"
+            />
+            <line
+              x1="645"
+              y1="140"
+              x2="645"
+              y2="180"
+              stroke="#C4A574"
+              stroke-width="1"
+              opacity="0.5"
+            />
+            <line
+              x1="660"
+              y1="140"
+              x2="660"
+              y2="180"
+              stroke="#C4A574"
+              stroke-width="1"
+              opacity="0.5"
+            />
+            <line
+              x1="675"
+              y1="140"
+              x2="675"
+              y2="180"
+              stroke="#C4A574"
+              stroke-width="1"
+              opacity="0.5"
+            />
+
+            <!-- Roof -->
+            <path d="M610 130 L655 95 L700 130 Z" fill="url(#roofGradient)" />
+            <path d="M613 130 L655 98 L697 130 Z" fill="#CD853F" />
+
+            <!-- Roof shingles -->
+            <path
+              d="M620 125 L655 100 L690 125"
+              stroke="#8B4513"
+              stroke-width="1"
+              fill="none"
+              opacity="0.3"
+            />
+            <path
+              d="M627 120 L655 102 L683 120"
+              stroke="#8B4513"
+              stroke-width="1"
+              fill="none"
+              opacity="0.3"
+            />
+
+            <!-- Entrance hole -->
+            <circle cx="655" cy="150" r="12" fill="#4A3728" />
+            <circle cx="655" cy="150" r="10" fill="#2C1810" />
+
+            <!-- Main Perch/Stand in front of entrance -->
+            <rect x="648" y="162" width="14" height="5" fill="#8B4513" rx="2" />
+            <ellipse cx="655" cy="167" rx="10" ry="3" fill="#654321" />
+
+            <!-- Extended landing platform -->
+            <rect x="638" y="165" width="34" height="4" fill="#A0522D" rx="2" />
+            <rect x="640" y="168" width="30" height="3" fill="#8B4513" rx="1" />
+
+            <!-- Support posts for platform -->
+            <rect x="642" y="168" width="4" height="12" fill="#654321" />
+            <rect x="664" y="168" width="4" height="12" fill="#654321" />
+
+            <!-- Decorative elements -->
+            <circle cx="630" cy="145" r="3" fill="#FFD700" opacity="0.8" />
+            <circle cx="680" cy="145" r="3" fill="#FFD700" opacity="0.8" />
+
+            <!-- Chimney -->
+            <rect x="675" y="100" width="12" height="20" fill="#8B4513" />
+            <rect x="673" y="98" width="16" height="5" fill="#A0522D" />
+          </g>
+
+          <!-- Home Sweet Home Signpost -->
+          <g class="home-sign">
+            <!-- Sign post going into ground -->
+            <rect x="755" y="120" width="8" height="62" fill="#8B4513" />
+            <rect
+              x="756"
+              y="120"
+              width="2"
+              height="62"
+              fill="#A0522D"
+              opacity="0.5"
+            />
+            <!-- Post cap -->
+            <rect x="753" y="118" width="12" height="4" fill="#654321" rx="1" />
+
+            <!-- Heart on top of post -->
+            <g class="sign-heart">
+              <path
+                d="M759 108 Q759 102 753 102 Q747 102 747 108 Q747 114 759 122 Q771 114 771 108 Q771 102 765 102 Q759 102 759 108"
+                fill="#E74C3C"
+              />
+              <path
+                d="M759 108 Q759 104 755 104 Q751 104 751 108"
+                fill="#EC7063"
+                opacity="0.6"
+              />
+            </g>
+
+            <!-- Wooden sign board -->
+            <rect
+              x="720"
+              y="128"
+              width="70"
+              height="42"
+              fill="#DEB887"
+              rx="3"
+            />
+            <rect
+              x="722"
+              y="130"
+              width="66"
+              height="38"
+              fill="#F5DEB3"
+              rx="2"
+            />
+            <!-- Wood grain on sign -->
+            <line
+              x1="730"
+              y1="130"
+              x2="730"
+              y2="168"
+              stroke="#D2B48C"
+              stroke-width="0.5"
+              opacity="0.4"
+            />
+            <line
+              x1="745"
+              y1="130"
+              x2="745"
+              y2="168"
+              stroke="#D2B48C"
+              stroke-width="0.5"
+              opacity="0.4"
+            />
+            <line
+              x1="760"
+              y1="130"
+              x2="760"
+              y2="168"
+              stroke="#D2B48C"
+              stroke-width="0.5"
+              opacity="0.4"
+            />
+            <line
+              x1="775"
+              y1="130"
+              x2="775"
+              y2="168"
+              stroke="#D2B48C"
+              stroke-width="0.5"
+              opacity="0.4"
+            />
+
+            <!-- Sign text -->
+            <text
+              x="755"
+              y="143"
+              font-size="8"
+              fill="#5D4037"
+              text-anchor="middle"
+              font-family="Georgia, serif"
+              font-weight="bold"
+            >
+              HOME
+            </text>
+            <!-- Sweet text with candies -->
+            <g class="sweet-row">
+              <!-- Left candy -->
+              <g class="candy candy-left">
+                <ellipse cx="728" cy="148" rx="4" ry="3" fill="#FF69B4" />
+                <path
+                  d="M724 148 L726 148"
+                  stroke="white"
+                  stroke-width="0.8"
+                  opacity="0.6"
+                />
+                <ellipse
+                  cx="728"
+                  cy="148"
+                  rx="2.5"
+                  ry="1.8"
+                  fill="#FF1493"
+                  opacity="0.5"
+                />
+              </g>
+              <!-- Sweet text -->
+              <text
+                x="755"
+                y="152"
+                font-size="9"
+                fill="#DC143C"
+                text-anchor="middle"
+                font-family="Georgia, serif"
+                font-style="italic"
+                font-weight="bold"
+              >
+                sweet
+              </text>
+              <!-- Right candy -->
+              <g class="candy candy-right">
+                <ellipse cx="782" cy="148" rx="4" ry="3" fill="#32CD32" />
+                <path
+                  d="M778 148 L780 148"
+                  stroke="white"
+                  stroke-width="0.8"
+                  opacity="0.6"
+                />
+                <ellipse
+                  cx="782"
+                  cy="148"
+                  rx="2.5"
+                  ry="1.8"
+                  fill="#228B22"
+                  opacity="0.5"
+                />
+              </g>
+            </g>
+            <text
+              x="755"
+              y="166"
+              font-size="8"
+              fill="#5D4037"
+              text-anchor="middle"
+              font-family="Georgia, serif"
+              font-weight="bold"
+            >
+              HOME
+            </text>
+
+            <!-- Decorative nails -->
+            <circle cx="726" cy="134" r="1.5" fill="#4A4A4A" />
+            <circle cx="784" cy="134" r="1.5" fill="#4A4A4A" />
+            <circle cx="726" cy="164" r="1.5" fill="#4A4A4A" />
+            <circle cx="784" cy="164" r="1.5" fill="#4A4A4A" />
+
+            <!-- Sign bracket connecting to post -->
+            <rect x="753" y="135" width="10" height="3" fill="#654321" />
+            <rect x="753" y="155" width="10" height="3" fill="#654321" />
+          </g>
+
+          <!-- Ground -->
+          <rect
+            x="0"
+            y="180"
+            width="800"
+            height="20"
+            fill="url(#groundGradient)"
+          />
+
+          <!-- Grass -->
+          <rect
+            x="0"
+            y="175"
+            width="800"
+            height="8"
+            fill="url(#grassGradient)"
+          />
+          <path
+            d="M0 175 Q10 170 20 175 Q30 168 40 175 Q50 170 60 175 Q70 167 80 175 Q90 170 100 175 Q110 168 120 175 Q130 170 140 175 Q150 167 160 175 Q170 170 180 175 Q190 168 200 175 Q210 170 220 175 Q230 167 240 175 Q250 170 260 175 Q270 168 280 175 Q290 170 300 175 Q310 168 320 175 Q330 170 340 175 Q350 167 360 175 Q370 170 380 175 Q390 168 400 175"
+            stroke="#5DBE5D"
+            stroke-width="2"
+            fill="none"
+          />
+
+          <path
+            d="M400 175 Q410 170 420 175 Q430 168 440 175 Q450 170 460 175 Q470 167 480 175 Q490 170 500 175 Q510 168 520 175 Q530 170 540 175 Q550 167 560 175 Q570 170 580 175 Q590 168 600 175 Q610 170 620 175 Q630 167 640 175 Q650 170 660 175 Q670 168 680 175 Q690 170 700 175 Q710 168 720 175 Q730 170 740 175 Q750 167 760 175 Q770 170 780 175 Q790 168 800 175"
+            stroke="#5DBE5D"
+            stroke-width="2"
+            fill="none"
+          />
+
+          <!-- Small flowers -->
+          <g class="flowers">
+            <circle cx="50" cy="173" r="3" fill="#FF6B6B" />
+            <circle cx="52" cy="171" r="1" fill="#FFE66D" />
+            <circle cx="150" cy="174" r="3" fill="#FF6B6B" />
+            <circle cx="152" cy="172" r="1" fill="#FFE66D" />
+            <circle cx="350" cy="173" r="3" fill="#9B59B6" />
+            <circle cx="352" cy="171" r="1" fill="#FFE66D" />
+            <circle cx="450" cy="174" r="3" fill="#FF6B6B" />
+            <circle cx="452" cy="172" r="1" fill="#FFE66D" />
+            <circle cx="620" cy="173" r="3" fill="#9B59B6" />
+            <circle cx="622" cy="171" r="1" fill="#FFE66D" />
+            <circle cx="720" cy="174" r="3" fill="#FF6B6B" />
+            <circle cx="722" cy="172" r="1" fill="#FFE66D" />
+          </g>
+
+          <!-- Animated Flappy Bird - Starting from far left, in bottom third -->
+          <!-- Placed after house so bird renders on top when landing -->
+          <g class="flappy-bird">
+            <!-- Body -->
+            <ellipse cx="50" cy="140" rx="18" ry="15" fill="#F7DC6F" />
+            <ellipse cx="50" cy="140" rx="16" ry="13" fill="#F9E79F" />
+
+            <!-- Wing -->
+            <g class="wing">
+              <ellipse cx="45" cy="145" rx="12" ry="6" fill="#E5C100" />
+              <ellipse cx="45" cy="145" rx="10" ry="4" fill="#F0D000" />
+            </g>
+
+            <!-- Eye -->
+            <circle cx="60" cy="135" r="7" fill="white" />
+            <circle cx="62" cy="135" r="4" fill="#333" />
+            <circle cx="63" cy="133" r="1.5" fill="white" />
+
+            <!-- Beak -->
+            <path d="M68 140 L80 142 L68 146 Z" fill="#E67E22" />
+            <path d="M68 140 L78 141 L68 143 Z" fill="#F39C12" />
+
+            <!-- Tail feathers -->
+            <ellipse cx="30" cy="138" rx="6" ry="3" fill="#E5C100" />
+            <ellipse cx="30" cy="142" rx="5" ry="2.5" fill="#D4AC0D" />
+
+            <!-- Cheek blush -->
+            <ellipse
+              cx="55"
+              cy="143"
+              rx="4"
+              ry="2.5"
+              fill="#F1948A"
+              opacity="0.6"
+            />
+          </g>
+
+          <!-- Flying path indicator (dotted line) -->
+          <path
+            class="flight-path"
+            d="M50 140 Q120 100 180 125 Q250 95 330 120 Q410 90 485 115 Q560 95 590 120 Q620 145 640 155 Q650 160 655 165"
+            stroke="#FFD700"
+            stroke-width="2"
+            stroke-dasharray="8,6"
+            fill="none"
+            opacity="0.4"
+          />
+        </svg>
+      </div>
+
+      <!-- Settings Modal -->
+      <div class="settings-modal" id="settings-modal">
+        <div class="settings-overlay" id="settings-overlay"></div>
+        <div class="settings-panel">
+          <div class="settings-header">
+            <h2>
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <circle cx="12" cy="12" r="3" />
+                <path
+                  d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"
+                />
+              </svg>
+              Settings
+            </h2>
+            <button
+              class="settings-close"
+              id="settings-close"
+              aria-label="Close settings"
+            >
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
+          </div>
+
+          <div class="settings-content">
+            <!-- Difficulty Section -->
+            <div class="settings-section">
+              <h3>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+                </svg>
+                Difficulty
+              </h3>
+              <div class="setting-group">
+                <label>Game Difficulty</label>
+                <div class="difficulty-buttons">
+                  <button class="diff-btn" data-difficulty="easy">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <circle cx="12" cy="12" r="10" />
+                      <path d="M8 14s1.5 2 4 2 4-2 4-2" />
+                      <line x1="9" y1="9" x2="9.01" y2="9" />
+                      <line x1="15" y1="9" x2="15.01" y2="9" />
+                    </svg>
+                    Easy
+                  </button>
+                  <button class="diff-btn active" data-difficulty="normal">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <circle cx="12" cy="12" r="10" />
+                      <line x1="8" y1="15" x2="16" y2="15" />
+                      <line x1="9" y1="9" x2="9.01" y2="9" />
+                      <line x1="15" y1="9" x2="15.01" y2="9" />
+                    </svg>
+                    Normal
+                  </button>
+                  <button class="diff-btn" data-difficulty="hard">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <circle cx="12" cy="12" r="10" />
+                      <path d="M16 16s-1.5-2-4-2-4 2-4 2" />
+                      <line x1="9" y1="9" x2="9.01" y2="9" />
+                      <line x1="15" y1="9" x2="15.01" y2="9" />
+                    </svg>
+                    Hard
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Audio Section -->
+            <div class="settings-section">
+              <h3>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+                  <path
+                    d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"
+                  />
+                </svg>
+                Audio
+              </h3>
+              <div class="setting-group">
+                <div class="setting-row">
+                  <label for="sound-toggle">Sound Effects</label>
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="sound-toggle" checked />
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+                <div class="setting-row">
+                  <label for="volume-slider">Volume</label>
+                  <div class="slider-container">
+                    <input
+                      type="range"
+                      id="volume-slider"
+                      min="0"
+                      max="100"
+                      value="30"
+                    />
+                    <span class="slider-value" id="volume-value">30%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Physics Section -->
+            <div class="settings-section">
+              <h3>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="12" cy="12" r="10" />
+                  <line x1="12" y1="8" x2="12" y2="16" />
+                  <line x1="8" y1="12" x2="16" y2="12" />
+                </svg>
+                Physics
+              </h3>
+              <div class="setting-group">
+                <div class="setting-row">
+                  <label for="gravity-slider">Gravity</label>
+                  <div class="slider-container">
+                    <input
+                      type="range"
+                      id="gravity-slider"
+                      min="20"
+                      max="80"
+                      value="40"
+                    />
+                    <span class="slider-value" id="gravity-value">0.4</span>
+                  </div>
+                </div>
+                <div class="setting-row">
+                  <label for="flap-slider">Flap Power</label>
+                  <div class="slider-container">
+                    <input
+                      type="range"
+                      id="flap-slider"
+                      min="40"
+                      max="100"
+                      value="70"
+                    />
+                    <span class="slider-value" id="flap-value">7</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Visuals Section -->
+            <div class="settings-section">
+              <h3>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <circle cx="12" cy="12" r="5" />
+                  <line x1="12" y1="1" x2="12" y2="3" />
+                  <line x1="12" y1="21" x2="12" y2="23" />
+                  <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+                  <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+                  <line x1="1" y1="12" x2="3" y2="12" />
+                  <line x1="21" y1="12" x2="23" y2="12" />
+                  <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+                  <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+                </svg>
+                Visuals
+              </h3>
+              <div class="setting-group">
+                <div class="setting-row">
+                  <label for="particles-toggle">Particles</label>
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="particles-toggle" checked />
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+                <div class="setting-row">
+                  <label for="screenshake-toggle">Screen Shake</label>
+                  <label class="toggle-switch">
+                    <input type="checkbox" id="screenshake-toggle" checked />
+                    <span class="toggle-slider"></span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <!-- Data Section -->
+            <div class="settings-section">
+              <h3>
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <polyline points="17 8 12 3 7 8" />
+                  <line x1="12" y1="3" x2="12" y2="15" />
+                </svg>
+                Data
+              </h3>
+              <div class="setting-group">
+                <button class="danger-btn" id="reset-highscore">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <polyline points="3 6 5 6 21 6" />
+                    <path
+                      d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"
+                    />
+                  </svg>
+                  Reset High Score
+                </button>
+                <button class="secondary-btn" id="reset-settings">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                  >
+                    <path d="M2.5 2v6h6M21.5 22v-6h-6" />
+                    <path
+                      d="M22 11.5A10 10 0 0 0 3.2 7.2M2 12.5a10 10 0 0 0 18.8 4.2"
+                    />
+                  </svg>
+                  Reset to Defaults
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/script.js"></script>
+  </body>
 </html>
