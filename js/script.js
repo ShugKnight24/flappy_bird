@@ -347,7 +347,7 @@ class Coin {
       const dy = birdY - this.y;
       const distance = Math.sqrt(dx * dx + dy * dy);
 
-      if (distance < 100) {
+      if (distance < 150) {
         this.x += (dx / distance) * 3;
         this.y += (dy / distance) * 3;
       }
@@ -405,7 +405,7 @@ class Coin {
       Math.pow(this.x - birdCenterX, 2) + Math.pow(bobY - birdCenterY, 2)
     );
 
-    const collectionRadius = magnetActive ? 20 : 15;
+    const collectionRadius = magnetActive ? 25 : 15;
     return distance < this.size / 2 + collectionRadius;
   }
 }
