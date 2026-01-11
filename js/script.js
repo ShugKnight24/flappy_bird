@@ -1749,7 +1749,15 @@ document.addEventListener("keydown", function (event) {
 });
 
 // Touch/click support for mobile
-canvas.addEventListener("click", function () {
+// Flag to prevent double-firing on touch devices
+let lastInputTime = 0;
+const INPUT_DEBOUNCE = 50; // ms
+
+function handleCanvasInput() {
+  const now = Date.now();
+  if (now - lastInputTime < INPUT_DEBOUNCE) return;
+  lastInputTime = now;
+
   if (game.state === "playing") {
     moveUp();
   } else if (game.state === "start") {
@@ -1758,18 +1766,13 @@ canvas.addEventListener("click", function () {
     resetGame();
     game.startGame();
   }
-});
+}
+
+canvas.addEventListener("click", handleCanvasInput);
 
 canvas.addEventListener("touchstart", function (event) {
   event.preventDefault();
-  if (game.state === "playing") {
-    moveUp();
-  } else if (game.state === "start") {
-    game.startGame();
-  } else if (game.state === "end") {
-    resetGame();
-    game.startGame();
-  }
+  handleCanvasInput();
 });
 
 // Start the game loop
@@ -1998,12 +2001,15 @@ const Settings = {
       }
     });
 
-    // Close modal with Escape key
-    document.addEventListener("keydown", (e) => {
-      if (e.code === "Escape" && modal.classList.contains("active")) {
-        modal.classList.remove("active");
-      }
-    });
+    // Close modal with Escape key (only add listener once)
+    if (!this._escapeListenerAdded) {
+      this._escapeListenerAdded = true;
+      document.addEventListener("keydown", (e) => {
+        if (e.code === "Escape" && modal.classList.contains("active")) {
+          modal.classList.remove("active");
+        }
+      });
+    }
   },
 };
 
